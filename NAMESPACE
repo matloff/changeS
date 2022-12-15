@@ -1,2 +1,3 @@
 import(nls.multstart)
-export(fit_wrapper)
+import(stats)
+export(fitS)
