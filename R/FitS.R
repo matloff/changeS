@@ -58,4 +58,3 @@ print.fittedS <- function(obj)
    print(obj$pars)
 }
 
-
