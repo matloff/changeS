@@ -39,16 +39,14 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL) {
        start_upper=c(val_high, val_high, 25, changePt_high), supp_errors="Y")
   }
 
-  ### return(ret) # temporarily returning an nls obj
-
   retObj <- list(nlsOut=ret)
   retObj$pars <- ret$m$getAllPars()
   retObj$covMat <- vcov(ret)
-  class(retObj) <- c('fittedS',class(ret))
 
   sm <- summary(ret)
   retObj$covMat <- sm$sigma^2 * sm$cov.unscaled 
 
+  class(retObj) <- c('fittedS')
   retObj
 
 }
