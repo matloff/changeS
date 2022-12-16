@@ -1,3 +1,5 @@
 import(nls.multstart)
 import(stats)
 export(fitS)
+
+S3method(print,fittedS)

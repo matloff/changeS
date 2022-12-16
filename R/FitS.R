@@ -39,10 +39,11 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL) {
        start_upper=c(val_high, val_high, 25, changePt_high), supp_errors="Y")
   }
 
-  retObj <- list(nlsOut=ret)
-  retObj$pars <- ret$m$getAllPars()
-  retObj$covMat <- vcov(ret)
+  retObj <- list(nlsOut=ret)  # returned object from nls_multstart
+  retObj$pars <- ret$m$getAllPars()  # pre-, post-means, maybe slope, changept
+  retObj$d <- d  # x and y
 
+  # covariance matrix of the par estimates
   sm <- summary(ret)
   retObj$covMat <- sm$sigma^2 * sm$cov.unscaled 
 
