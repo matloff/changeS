@@ -53,6 +53,9 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL) {
 
 print.fittedS <- function(obj) 
 {
+   print('point estimates of the alpha_i')
    print(obj$pars)
+   print('covariance matrix')
+   print(obj$covMat)
 }
 
