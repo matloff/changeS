@@ -3,11 +3,11 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL) {
 
   # Preliminary work (should be a smarter way to do this but haven't found yet)
   # library(nls.multstart)
-  fitGenLogit_unfixed <- function(topLevel, bottomLevel, slope, changePt, x) {
-    return((topLevel-bottomLevel)/(1+exp(-slope*(x-changePt))) + bottomLevel)
+  fitGenLogit_unfixed <- function(postMean, preMean, slope, changePt, x) {
+    return((postMean-preMean)/(1+exp(-slope*(x-changePt))) + preMean)
   }
-  fitGenLogit_fixed <- function(topLevel, bottomLevel, changePt, x) {
-    return((topLevel-bottomLevel)/(1+exp(-slopeIn*(x-changePt))) + bottomLevel)
+  fitGenLogit_fixed <- function(postMean, preMean, changePt, x) {
+    return((postMean-preMean)/(1+exp(-slopeIn*(x-changePt))) + preMean)
   }
 
   # dataIn could be: a data frame; a numeric vector; a time series
@@ -29,11 +29,11 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL) {
   # fit
   ret <- NULL
   if (!is.null(slopeIn)) {
-    ret <- nls_multstart(y~fitGenLogit_fixed(topLevel, bottomLevel, changePt, 
+    ret <- nls_multstart(y~fitGenLogit_fixed(postMean, preMean, changePt, 
        x=x), d, iter=c(5,5,5), start_lower=c(val_low, val_low, changePt_low),
        start_upper=c(val_high, val_high, changePt_high), supp_errors="Y")
   } else {
-    ret <- nls_multstart(y~fitGenLogit_unfixed(topLevel, bottomLevel, slope, 
+    ret <- nls_multstart(y~fitGenLogit_unfixed(postMean, preMean, slope, 
        changePt, x=x),
        d, iter=c(5,5,5,5), start_lower=c(val_low, val_low, 0, changePt_low),
        start_upper=c(val_high, val_high, 25, changePt_high), supp_errors="Y")
