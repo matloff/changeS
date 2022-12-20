@@ -42,6 +42,7 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL) {
   retObj <- list(nlsOut=ret)  # returned object from nls_multstart
   retObj$pars <- ret$m$getAllPars()  # pre-, post-means, maybe slope, changept
   retObj$d <- d  # x and y
+  retObj$d$fitted <- predict(ret) #  generate predictions and add to dataframe 'd'
 
   # covariance matrix of the par estimates
   sm <- summary(ret)
