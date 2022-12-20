@@ -37,8 +37,8 @@ fitS(dataIn, xColIndex, yColIndex, slopeIn)
   https://cran.r-project.org/web/packages/nls.multstart/nls.multstart.pdf
 }
 \author{
-  Collin Kennedy
   Lan Jiang
+  Collin Kennedy
   Norm Matloff
 }
 

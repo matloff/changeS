@@ -61,3 +61,21 @@ print.fittedS <- function(obj)
    print(obj$covMat)
 }
 
+plot.fittedS <- function(obj){
+  #should return a ggplot object
+  require(ggplot2)
+  ggplot(data = out$d, mapping = aes(x = x, y = y))+
+    geom_point(alpha = .9, color = 'black')+
+    geom_line(data = out$d, mapping = aes(x = x, y = fitted, color = "S-fit"))+
+    ggtitle("Changepoint Plot")+
+    scale_color_manual(name = "Curve Type", values = "blue")+
+    geom_vline(xintercept = out$par[[4]], color = "lightblue", linetype = "dashed")+
+    theme_minimal()+
+    annotate("text", x = out$par[[4]], y = max(out$d$y), label = str_glue("Estimated CP: {cp}", cp = round(out$par[[4]],2)))+
+    # annotate("text", x = out$par[[4]]+20, y = max(y)-150, label = str_glue('(std. error: {std.error})', std.error = round(std_error_cp,3)))+
+    # scale_x_continuous(breaks = seq(min(out$d$x),max(out$d$x), by = 10))+
+    theme(plot.title = element_text(face = "bold", size = 15, hjust= .5),
+          plot.subtitle = element_text(hjust = .5))
+  
+}
+

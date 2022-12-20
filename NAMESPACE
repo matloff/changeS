@@ -3,3 +3,4 @@ import(stats)
 export(fitS)
 
 S3method(print,fittedS)
+S3method(plot,fittedS)
