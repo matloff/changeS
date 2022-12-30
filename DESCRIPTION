@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Collin Kennedy, Lan Jiang, Norm Matloff
 Maintainer: Norm Matloff <nsmatloff@ucdavis.edu>
 Description: TODO
-Depends: nls.multstart
+Depends: nls.multstart, ggplot2, stringr, broom
 License: What license is it under?
 Encoding: UTF-8
 NeedsCompilation: no
