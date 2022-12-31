@@ -23,7 +23,7 @@ fitS(dataIn, xColIndex, yColIndex, slopeIn)
   }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+  This function fits a logistic S-curve to given data frames.
 }
 \value{
 %%  ~Describe the value returned

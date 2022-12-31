@@ -7,7 +7,8 @@
 Generates a plot (ggplot) of the data passed as argument to the 'fitS' function. Superimposes the fitted S-curve on the data
 }
 \usage{
-plot.fittedS(obj)
+%%plot.fittedS(obj)
+\method{plot}{fittedS}(obj)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,9 +33,7 @@ https://ggplot2.tidyverse.org/reference/ggplot.html
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 ##---- Should be DIRECTLY executable !! ----
 ##-- ==>  Define data, use random,
