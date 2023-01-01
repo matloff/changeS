@@ -8,3 +8,4 @@ export(fitS)
 
 S3method(print,fittedS)
 S3method(plot,fittedS)
+S3method(summary,fittedS)

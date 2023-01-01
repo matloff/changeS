@@ -62,6 +62,10 @@ print.fittedS <- function(obj)
    print(obj$covMat)
 }
 
+summary.fittedS <- function(obj){
+  summary(obj$nlsOut)
+}
+
 plot.fittedS <- function(obj){
   #should return a ggplot object
   cpIndex <- 3
