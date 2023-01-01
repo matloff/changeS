@@ -48,6 +48,9 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL) {
   sm <- summary(ret)
   retObj$covMat <- sm$sigma^2 * sm$cov.unscaled
   retObj$slopeGenerated <- is.null(slopeIn)
+  
+  #standard error of the difference of means
+  retObj$stdErrorDiff <- sqrt(retObj$covMat[1,1] + retObj$covMat[2,2] - 2*retObj$covMat[1,2])
 
   class(retObj) <- c('fittedS')
   retObj
@@ -60,6 +63,8 @@ print.fittedS <- function(obj)
    print(obj$pars)
    print('covariance matrix')
    print(obj$covMat)
+   print('standard error of the difference between pre-changepoint and post-changepoint means')
+   print(obj$stdErrorDiff)
 }
 
 summary.fittedS <- function(obj){
