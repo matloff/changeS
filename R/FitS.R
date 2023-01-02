@@ -82,7 +82,7 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1) 
 
 }
 
-print.fittedS <- function(obj)
+print.fittedS <- function(obj, listAllCp=FALSE)
 {
    print('point estimates of the alpha_i')
    print(obj$pars)
@@ -90,6 +90,26 @@ print.fittedS <- function(obj)
    print(obj$covMat)
    print('standard error of the difference between pre-changepoint and post-changepoint means')
    print(obj$stdErrorDiff)
+   if (listAllCp) {
+     traverser <- function(current_obj) {
+       cps <- c()
+       if (!is.null(current_obj$leftPartition)) {
+         cps <- traverser(current_obj$leftPartition)
+       }
+       cpIndex <- 3
+       if (current_obj$slopeGenerated) {
+         cpIndex <- 4
+       }
+       cps <- append(cps, current_obj$pars[[cpIndex]])
+       if (!is.null(current_obj$rightPartition)) {
+         cps <- append(cps, traverser(current_obj$rightPartition))
+       }
+       return(cps)
+     }
+     cp_list <- traverser(obj)
+     print('All changepoints listed as')
+     print(cp_list)
+   }
 }
 
 summary.fittedS <- function(obj){
