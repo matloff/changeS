@@ -5,7 +5,7 @@
   Fits an S-curve to given data points.
 }
 \usage{
-fitS(dataIn, xColIndex, yColIndex, slopeIn)
+fitS(dataIn, xColIndex, yColIndex, slopeIn, depth)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,6 +20,9 @@ fitS(dataIn, xColIndex, yColIndex, slopeIn)
   }
   \item{slopeIn}{
     A fixed slope for the model
+  }
+  \item{depth}{
+    A bound of depth of binary segmentation
   }
 }
 \details{

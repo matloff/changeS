@@ -1,6 +1,5 @@
 
-fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL) {
-
+fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1) {
   # Preliminary work (should be a smarter way to do this but haven't found yet)
   # library(nls.multstart)
   fitGenLogit_unfixed <- function(postMean, preMean, slope, changePt, x) {
@@ -21,10 +20,11 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL) {
      d <- data.frame(x=dataIn[[xColIndex]], y=dataIn[[yColIndex]])
   }
 
-  changePt_low = min(d$x)
-  changePt_high = max(d$x)
-  val_low = min(d$y)
-  val_high = max(d$y)
+  d <- d[order(d$x, decreasing=FALSE),]
+  changePt_low <- min(d$x)
+  changePt_high <- max(d$x)
+  val_low <- min(d$y)
+  val_high <- max(d$y)
 
   # fit
   ret <- NULL
@@ -48,9 +48,34 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL) {
   sm <- summary(ret)
   retObj$covMat <- sm$sigma^2 * sm$cov.unscaled
   retObj$slopeGenerated <- is.null(slopeIn)
-  
+
   #standard error of the difference of means
   retObj$stdErrorDiff <- sqrt(retObj$covMat[1,1] + retObj$covMat[2,2] - 2*retObj$covMat[1,2])
+
+  #Binary Segmentation
+  retObj$leftPartition <- NULL
+  retObj$leftPartition <- NULL
+
+  keep_dividing <- TRUE
+  # When to stop going
+  if (depth <= 1 || nrow(dataIn) <= 3) {
+    keep_dividing <- FALSE
+  }
+
+  # recursion
+  if (keep_dividing) {
+    cpIndex <- 3
+    if (retObj$slopeGenerated) {
+      cpIndex <- 4
+    }
+    cutPoint <- 0
+    while (cutPoint < nrow(d) && d$x[cutPoint+1] < retObj$pars[[cpIndex]]) {
+      cutPoint <- cutPoint + 1
+    }
+    retObj$leftPartition <- fitS(d[1:cutPoint,], 1, 2, slopeIn, depth-1)
+    retObj$rightPartition <- fitS(d[(cutPoint+1):nrow(d),], 1, 2, slopeIn,
+                                  depth-1)
+  }
 
   class(retObj) <- c('fittedS')
   retObj
