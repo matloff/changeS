@@ -55,6 +55,8 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1) 
   #Binary Segmentation
   retObj$leftPartition <- NULL
   retObj$leftPartition <- NULL
+  
+  
 
   keep_dividing <- TRUE
   # When to stop going
@@ -76,6 +78,46 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1) 
     retObj$rightPartition <- fitS(d[(cutPoint+1):nrow(d),], 1, 2, slopeIn,
                                   depth-1)
   }
+  
+  cp_traverser <- function(current_obj) {
+    cps <- c()
+    if (!is.null(current_obj$leftPartition)) { #if the current_obj has a leftPartition, traverse through it
+      cps <- cp_traverser(current_obj$leftPartition)
+    }
+    cpIndex <- 3
+    if (current_obj$slopeGenerated) {
+      cpIndex <- 4
+    }
+    cps <- append(cps, current_obj$pars[[cpIndex]])
+    if (!is.null(current_obj$rightPartition)) {
+      cps <- append(cps, cp_traverser(current_obj$rightPartition))
+    }
+    return(cps)
+  }
+
+  
+  retObj$cp_list <- cp_traverser(retObj)
+  
+  
+  std_error_traverser <- function(current_obj) {
+    std_errors <- c()
+    if (!is.null(current_obj$leftPartition)) { #if the current_obj has a leftPartition, traverse through it
+      std_errors <- std_error_traverser(current_obj$leftPartition)
+    }
+    cpIndex <- 3 
+    if (current_obj$slopeGenerated) {
+      cpIndex <- 4
+    }
+    std_errors <- append(std_errors, current_obj$stdErrorDiff)
+    if (!is.null(current_obj$rightPartition)) {
+      std_errors <- append(std_errors, std_error_traverser(current_obj$rightPartition))
+    }
+    return(std_errors)
+  }
+  
+  retObj$std_error_list <- std_error_traverser(retObj)
+  
+  
 
   class(retObj) <- c('fittedS')
   retObj
@@ -91,51 +133,20 @@ print.fittedS <- function(obj, listAllCp=FALSE)
    print('standard error of the difference between pre-changepoint and post-changepoint means')
    print(obj$stdErrorDiff)
    if (listAllCp) { #print all POSSIBLE changepoints
-     traverser <- function(current_obj) {
-       cps <- c()
-       if (!is.null(current_obj$leftPartition)) { #if the current_obj has a leftPartition, traverse through it
-         cps <- traverser(current_obj$leftPartition)
-       }
-       cpIndex <- 3
-       if (current_obj$slopeGenerated) {
-         cpIndex <- 4
-       }
-       cps <- append(cps, current_obj$pars[[cpIndex]])
-       if (!is.null(current_obj$rightPartition)) {
-         cps <- append(cps, traverser(current_obj$rightPartition))
-       }
-       return(cps)
-     }
-     cp_list <- traverser(obj)
+     #moving traverser function for now
+     
      print('All changepoints listed as')
      print(cp_list)
-   }
-   
-   #print the corresponding standard errors for each of the differences
-   if (listAllCp) {
-     traverser <- function(current_obj) {
-       std_errors <- c()
-       if (!is.null(current_obj$leftPartition)) { #if the current_obj has a leftPartition, traverse through it
-         std_errors <- traverser(current_obj$leftPartition)
-       }
-       cpIndex <- 3 
-       if (current_obj$slopeGenerated) {
-         cpIndex <- 4
-       }
-       std_errors <- append(std_errors, current_obj$stdErrorDiff)
-       if (!is.null(current_obj$rightPartition)) {
-         std_errors <- append(std_errors, traverser(current_obj$rightPartition))
-       }
-       return(std_errors)
-     }
-     std_errors_list <- traverser(obj)
+     
+     #print all the corresponding standard errors
      print('All corresponding standard errors (of pre-mean/post-mean differences) listed as')
      print(std_errors_list)
    }
    
-   
+
   
 }
+
 
 summary.fittedS <- function(obj){
   summary(obj$nlsOut)
@@ -161,4 +172,8 @@ plot.fittedS <- function(obj){
           plot.subtitle = element_text(hjust = .5))
 
 }
+
+
+
+
 
