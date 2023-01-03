@@ -1,5 +1,5 @@
 
-fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1) {
+fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1, family_wise_error_rate = .05) {
   # Preliminary work (should be a smarter way to do this but haven't found yet)
   # library(nls.multstart)
   fitGenLogit_unfixed <- function(postMean, preMean, slope, changePt, x) {
@@ -118,7 +118,60 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1) 
   retObj$std_error_list <- std_error_traverser(retObj)
   
   
-
+  #need the pre and post means to calculate confidence intervals
+  post_mean_traverser <- function(current_obj) {
+    post_means <- c()
+    if (!is.null(current_obj$leftPartition)) { #if the current_obj has a leftPartition, traverse through it
+      post_means <- post_mean_traverser(current_obj$leftPartition)
+    }
+    
+    post_means <- append(post_means, current_obj$pars[[1]])
+    if (!is.null(current_obj$rightPartition)) {
+      post_means <- append(post_means, post_mean_traverser(current_obj$rightPartition))
+    }
+    return(post_means)
+  }
+  
+  retObj$post_means <- post_mean_traverser(retObj)
+  
+  pre_mean_traverser <- function(current_obj) {
+    pre_means <- c()
+    if (!is.null(current_obj$leftPartition)) { #if the current_obj has a leftPartition, traverse through it
+      pre_means <- pre_mean_traverser(current_obj$leftPartition)
+    }
+    
+    pre_means <- append(pre_means, current_obj$pars[[2]])
+    if (!is.null(current_obj$rightPartition)) {
+      pre_means <- append(pre_means, pre_mean_traverser(current_obj$rightPartition))
+    }
+    return(pre_means)
+  }
+  
+  retObj$pre_means <- pre_mean_traverser(retObj)
+  
+  #default to bonferroni correction for now, will look into potentially allowing user to use different methods 
+  #for controlling family-wise error rate but this should be sufficient for now...
+  #also default to .05 family wise error rate for now
+  num_comparisons <- length(retObj$pre_means)
+  
+  #lower and upper bounds for the confidence intervals
+  lower_bounds <- (retObj$post_means - retObj$pre_means) - qnorm(1 - family_wise_error_rate/num_comparisons)*retObj$std_error_list
+  upper_bounds <- (retObj$post_means - retObj$pre_means) + qnorm(1 - family_wise_error_rate/num_comparisons)*retObj$std_error_list
+  
+  #included them as attributes for retObj but probably will not need to include these in the future
+  retObj$lower_bounds <- lower_bounds
+  retObj$upper_bounds <- upper_bounds
+  
+  
+  retObj$CI_list  <- vector(mode = 'list', length = length(retObj$cp_list))
+  for(i in 1:length(retObj$cp_list)){
+    retObj$CI_list[[i]] <- list('Possible Changepoint' = retObj$cp_list[i],
+                         'Confidence Interval for Corresponding Difference of Post-Changepoint and Pre-Changepoint Means' = str_glue('({lower},{upper})', lower = retObj$lower_bounds[i], upper = retObj$upper_bounds[i]),
+                         'Post-Changepoint Mean' = retObj$post_means[i],
+                         'Pre-Changepoint Mean' = retObj$pre_means[i],
+                         'Std. Error of Difference' = retObj$std_error_list[i])
+  }
+  
   class(retObj) <- c('fittedS')
   retObj
 
@@ -136,11 +189,11 @@ print.fittedS <- function(obj, listAllCp=FALSE)
      #moving traverser function for now
      
      print('All changepoints listed as')
-     print(cp_list)
+     print(obj$cp_list)
      
      #print all the corresponding standard errors
      print('All corresponding standard errors (of pre-mean/post-mean differences) listed as')
-     print(std_errors_list)
+     print(obj$std_error_list)
    }
    
 
