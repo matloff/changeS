@@ -90,10 +90,10 @@ print.fittedS <- function(obj, listAllCp=FALSE)
    print(obj$covMat)
    print('standard error of the difference between pre-changepoint and post-changepoint means')
    print(obj$stdErrorDiff)
-   if (listAllCp) {
+   if (listAllCp) { #print all POSSIBLE changepoints
      traverser <- function(current_obj) {
        cps <- c()
-       if (!is.null(current_obj$leftPartition)) {
+       if (!is.null(current_obj$leftPartition)) { #if the current_obj has a leftPartition, traverse through it
          cps <- traverser(current_obj$leftPartition)
        }
        cpIndex <- 3
@@ -110,6 +110,31 @@ print.fittedS <- function(obj, listAllCp=FALSE)
      print('All changepoints listed as')
      print(cp_list)
    }
+   
+   #print the corresponding standard errors for each of the differences
+   if (listAllCp) {
+     traverser <- function(current_obj) {
+       std_errors <- c()
+       if (!is.null(current_obj$leftPartition)) { #if the current_obj has a leftPartition, traverse through it
+         std_errors <- traverser(current_obj$leftPartition)
+       }
+       cpIndex <- 3 
+       if (current_obj$slopeGenerated) {
+         cpIndex <- 4
+       }
+       std_errors <- append(std_errors, current_obj$stdErrorDiff)
+       if (!is.null(current_obj$rightPartition)) {
+         std_errors <- append(std_errors, traverser(current_obj$rightPartition))
+       }
+       return(std_errors)
+     }
+     std_errors_list <- traverser(obj)
+     print('All corresponding standard errors (of pre-mean/post-mean differences) listed as')
+     print(std_errors_list)
+   }
+   
+   
+  
 }
 
 summary.fittedS <- function(obj){
