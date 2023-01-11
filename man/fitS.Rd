@@ -5,7 +5,7 @@
   Fits an S-curve to given data points.
 }
 \usage{
-fitS(dataIn, xColIndex, yColIndex, slopeIn, depth)
+fitS(dataIn, xColIndex, yColIndex, slopeIn, depth, family_wise_error_rate, autoTraverse)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,6 +23,12 @@ fitS(dataIn, xColIndex, yColIndex, slopeIn, depth)
   }
   \item{depth}{
     A bound of depth of binary segmentation
+  }
+  \item{family_wise_error_rate}{
+    Alpha value for determining confidence intervals
+  }
+  \item{autoTraverse}{
+    To decide if binary segmentations automatically go deeper
   }
 }
 \details{

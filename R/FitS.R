@@ -1,5 +1,6 @@
 
-fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1, family_wise_error_rate = .05) {
+fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1,
+                 family_wise_error_rate = .05, autoTraverse=TRUE) {
   # Preliminary work (should be a smarter way to do this but haven't found yet)
   # library(nls.multstart)
   fitGenLogit_unfixed <- function(postMean, preMean, slope, changePt, x) {
@@ -37,7 +38,8 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1, 
        changePt, x=x),
        d, iter=c(5,5,5,5), start_lower=c(val_low, val_low, 0, changePt_low),
        start_upper=c(val_high, val_high, 25, changePt_high),
-       lower=c(postMean=-Inf,preMean=-Inf,slope=0,changePt=-Inf), supp_errors="Y")
+       lower=c(postMean=-Inf,preMean=-Inf,slope=0,changePt=-Inf),
+       supp_errors="Y")
   }
 
   retObj <- list(nlsOut=ret)  # returned object from nls_multstart
@@ -64,6 +66,36 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1, 
   if (depth <= 1 || nrow(dataIn) <= 3) {
     keep_dividing <- FALSE
   }
+  # Get real-time CI for diff between preMean and postMean
+  real_time_diff <- retObj$pars[[1]] - retObj$pars[[2]] # post-pre
+  error_rate <- family_wise_error_rate
+  interval_width <- qnorm(1 - (error_rate/2)) * retObj$stdErrorDiff
+  real_time_upper <- real_time_diff + interval_width
+  real_time_lower <- real_time_diff - interval_width
+
+  if (autoTraverse) {
+    if (real_time_lower < 0 && real_time_upper > 0) {
+      keep_dividing <- FALSE
+    }
+  } else {
+    print("The real time confidence interval of difference between pre-changepoint mean and post-changepoint mean based on provided error rate is")
+    print(c(real_time_lower, real_time_upper))
+    print("Keep the results and potentially dig further? Y/N/D (view the used data)")
+    while (TRUE) {
+      user_input <- NULL
+      user_input <- readline()
+      if (user_input == "Y" || user_input == "y") {
+        break
+      } else if (user_input == "N" || user_input == "n") {
+        return(NULL)
+      } else if (user_input == "D" || user_input == "d") {
+        print(retObj$d)
+      } else {
+        print("Undefined Input.")
+      }
+      print("Keep dividing? (Y/N/D for current data used)")
+    }
+  }
 
   # recursion
   if (keep_dividing) {
@@ -75,9 +107,9 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1, 
     while (cutPoint < nrow(d) && d$x[cutPoint+1] < retObj$pars[[cpIndex]]) {
       cutPoint <- cutPoint + 1
     }
-    retObj$leftPartition <- fitS(d[1:cutPoint,], 1, 2, slopeIn, depth-1)
+    retObj$leftPartition <- fitS(d[1:cutPoint,], 1, 2, slopeIn, depth-1, autoTraverse = autoTraverse)
     retObj$rightPartition <- fitS(d[(cutPoint+1):nrow(d),], 1, 2, slopeIn,
-                                  depth-1)
+                                  depth-1, autoTraverse = autoTraverse)
   }
 
   cp_traverser <- function(current_obj) {
