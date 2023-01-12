@@ -5,6 +5,7 @@ import(stringr)
 import(broom)
 
 export(fitS)
+export(fitS_linear)
 
 S3method(print,fittedS)
 S3method(plot,fittedS)

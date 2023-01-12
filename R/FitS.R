@@ -228,9 +228,6 @@ print.fittedS <- function(obj, listAllCp=FALSE)
      print('All corresponding standard errors (of pre-mean/post-mean differences) listed as')
      print(obj$std_error_list)
    }
-
-
-
 }
 
 
