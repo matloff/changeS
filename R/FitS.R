@@ -205,6 +205,12 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1,
                          'Std. Error of Difference' = retObj$std_error_list[i])
   }
 
+  # flip the slope if postMean is smaller
+  if (is.null(slopeIn) && retObj$pars[[1]] < retObj$pars[[2]]) {
+    retObj$pars[[3]] <- -retObj$pars[[3]]
+  }
+
+
   class(retObj) <- c('fittedS')
   retObj
 
