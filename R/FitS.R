@@ -247,8 +247,10 @@ plot.fittedS <- function(obj){
   if (obj$slopeGenerated) {
     cpIndex <- 4
   }
+  
+  
   annotate <- data.frame(
-    x = c(obj$par[[cpIndex]],obj$par[[cpIndex]]/2,(max(obj$d$x)-obj$par[[cpIndex]]/2)), #cp,pre, post
+    x = c(obj$par[[cpIndex]],(obj$par[[4]]+min(obj$d$x))/2, (obj$par[[4]]+max(obj$d$x))/2), #cp,pre, post
     y = c(max(obj$d$y), obj$pars[[2]]/2, (max(obj$d$y) - obj$pars[[1]])/2 ),
     label = c(str_glue("Estimated CP: {cp}", cp = round(obj$par[[cpIndex]],2)),  #changepoint
               str_glue("Pre-CP Mean = {pre}", pre = round(obj$pars[[2]],3)),     #pre-cp mean
