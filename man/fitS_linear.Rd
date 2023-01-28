@@ -7,7 +7,7 @@
 }
 \usage{
 fitS_linear(dataIn, xColIndex, yColIndex, slopeIn,
-          depth, family_wise_error_rate, autoTraverse)
+          depth, family_wise_error_rate, autoTraverse, fitIntercept)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,6 +31,9 @@ fitS_linear(dataIn, xColIndex, yColIndex, slopeIn,
   }
   \item{autoTraverse}{
     Forward to fitS
+  }
+  \item{fitIntercept}{
+    To decide whether intercepts or slopes will be fit
   }
 }
 \details{

@@ -1,6 +1,6 @@
 fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL,
-                     depth=1, family_wise_error_rate = .05, autoTraverse=TRUE
-                     ) {
+                     depth=1, family_wise_error_rate = .05, autoTraverse=TRUE,
+                     fitIntercept=FALSE) {
   if (is.ts(dataIn)) {
     d <- data.frame(x=time(dataIn),y=as.numeric(dataIn))
   } else if (is.vector(dataIn)) {
@@ -15,7 +15,11 @@ fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL,
   gap_d_in <- data.frame(x=cut_d_rear$x,
                          b1=(cut_d_rear$y-cut_d_front$y)/(cut_d_rear$x-cut_d_front$x))
   gap_d_in$b0 <- cut_d_rear$y - (gap_d_in$x * gap_d_in$b1)
-  return(fitS(dataIn=gap_d_in, xColIndex=1, yColIndex=2, slopeIn=slopeIn,
+  passed_y <- 2
+  if (fitIntercept) {
+    passed_y <- 3
+  }
+  return(fitS(dataIn=gap_d_in, xColIndex=1, yColIndex=passed_y, slopeIn=slopeIn,
               depth=depth, family_wise_error_rate=family_wise_error_rate,
               autoTraverse=autoTraverse))
 }
