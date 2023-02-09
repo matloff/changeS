@@ -66,6 +66,25 @@ d <- data.frame(x=x,y=y)
 plot(d)
 fitS(d,1,2,10)
 fitS(d, 1, 2)
+
+
+n <- 1000
+y <- vector(length = n)
+x <- seq(1,n,by = 1)
+idx <- c(383,855)
+part1 <- runif(n = length(x[1:(idx[1]-1)]), min = 0, max = 4) #mean of 2
+part2 <- runif(n = length(x[idx[1]:(idx[2]-1)]), min = 0,max = 10) # mean of 5
+part3 <- runif(n = length(x[idx[2]:n]), min = 0, max = 2) #mean of 1
+
+#append these values to y vector
+y[1:(idx[1]-1)] <- part1
+y[idx[1]:(idx[2]-1)] <- part2
+y[idx[2]:n] <- part3
+
+#create a dataframe of the data
+df <- data.frame(x = x, y = y)
+
+fitS(df, 1, 2, depth=2, autoTraverse = TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):
