@@ -241,7 +241,7 @@ summary.fittedS <- function(obj){
   summary(obj$nlsOut)
 }
 
-plot.fittedS <- function(obj){
+plot.fittedS <- function(obj, title="Changepoint Plot"){
   #should return a ggplot object
   cpIndex <- 3
   if (obj$slopeGenerated) {
@@ -260,7 +260,7 @@ plot.fittedS <- function(obj){
   ggplot(data = obj$d, mapping = aes(x = x, y = y))+
     geom_point(alpha = .8, color = 'black')+
     geom_line(data = obj$d, mapping = aes(x = x, y = fitted, color = "S-fit"))+
-    ggtitle("Changepoint Plot")+
+    ggtitle(title)+
     scale_color_manual(name = "Curve Type", values = "blue")+
     geom_vline(xintercept = obj$par[[cpIndex]], color = "lightblue", linetype = "dashed")+
     theme_minimal()+
