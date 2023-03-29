@@ -220,6 +220,9 @@ print.fittedS <- function(obj, listAllCp=FALSE)
 {
    print('point estimates of the alpha_i')
    print(obj$pars)
+   if (is(obj, "fittedS_linear")) {
+     return()
+   }
    print('covariance matrix')
    print(obj$covMat)
    print('standard error of the difference between pre-changepoint and post-changepoint means')

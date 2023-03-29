@@ -6,8 +6,7 @@
   Process the incoming data frame and feed it to fitS
 }
 \usage{
-fitS_linear(dataIn, xColIndex, yColIndex, slopeIn,
-          depth, family_wise_error_rate, autoTraverse, fitIntercept)
+fitS_linear(dataIn, xColIndex, yColIndex, family_wise_error_rate)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,24 +19,12 @@ fitS_linear(dataIn, xColIndex, yColIndex, slopeIn,
   \item{yColIndex}{
     The column index of interested y in the data frame
   }
-  \item{slopeIn}{
-    Forward to fitS
-  }
-  \item{depth}{
-    Forward to fitS
-  }
   \item{family_wise_error_rate}{
     Forward to fitS
   }
-  \item{autoTraverse}{
-    Forward to fitS
-  }
-  \item{fitIntercept}{
-    To decide whether intercepts or slopes will be fit
-  }
 }
 \details{
-  This function fits a logistic S-curve to given data frame's slopes.
+  This function fits a logistic S-curve to given data frame.
 }
 \value{
 %%  ~Describe the value returned
