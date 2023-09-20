@@ -6,7 +6,9 @@ Currently just a single changepoint is analyzed, but this can easily be
 generalized using the "binary segmentation" method.  Code for this will
 be added in the near future.
 
-In the case of abrupt models, the S-curve is used to approximate a step
+Both single- and multiple-changepoint models are allowd.
+
+In the case of abrupt models, an S-curve is used to approximate a step
 function.  The user specifies a steep slope for this.  For gradual
 models, the slope will be estimated by the algorithm.
 
