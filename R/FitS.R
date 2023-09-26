@@ -216,8 +216,11 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1,
 
 }
 
-print.fittedS <- function(obj, listAllCp=FALSE)
+print.fittedS <- function(x,...)
 {
+   # adapt LJ code with minimal change
+   obj <- x
+   listAllCp <- FALSE
    print('point estimates of the alpha_i')
    print(obj$pars)
    if (is(obj, "fittedS_linear")) {
@@ -245,6 +248,9 @@ summary.fittedS <- function(obj){
 }
 
 plot.fittedS <- function(x,...){
+  # adapt LJ code with minimal change
+  obj <- x
+  title <- "Changepoint Plot"
   #should return a ggplot object
   cpIndex <- 3
   if (obj$slopeGenerated) {
