@@ -244,7 +244,7 @@ summary.fittedS <- function(obj){
   summary(obj$nlsOut)
 }
 
-plot.fittedS <- function(obj, title="Changepoint Plot"){
+plot.fittedS <- function(x,...){
   #should return a ggplot object
   cpIndex <- 3
   if (obj$slopeGenerated) {
