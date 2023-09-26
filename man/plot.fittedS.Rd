@@ -8,12 +8,12 @@ Generates a plot (ggplot) of the data passed as argument to the 'fitS' function.
 }
 \usage{
 %%plot.fittedS(obj)
-\method{plot}{fittedS}(obj)
+\method{plot}{fittedS}(x,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{obj}{
-%%     ~~Describe \code{obj} here~~
+  \item{x}{
+%%     ~~Describe \code{x} here~~
 object returned by 'fitS' function
 
 }
