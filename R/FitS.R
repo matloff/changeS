@@ -259,11 +259,15 @@ plot.fittedS <- function(x,...){
 
 
   annotate <- data.frame(
-    x = c(obj$par[[cpIndex]],(obj$par[[cpIndex]]+min(obj$d$x))/2, (obj$par[[cpIndex]]+max(obj$d$x))/2), #cp,pre, post
+    x = c(obj$par[[cpIndex]],(obj$par[[cpIndex]]+min(obj$d$x))/2, 
+       (obj$par[[cpIndex]]+max(obj$d$x))/2), #cp,pre, post
     y = c(max(obj$d$y), obj$pars[[2]]/2, (max(obj$d$y) - obj$pars[[1]])/2 ),
-    label = c(str_glue("Estimated CP: {cp}", cp = round(obj$par[[cpIndex]],2)),  #changepoint
-              str_glue("Pre-CP Mean = {pre}", pre = round(obj$pars[[2]],3)),     #pre-cp mean
-              str_glue("Post-CP Mean = {post}", post = round(obj$pars[[1]],3)))  #post-cp mean
+    label = c(str_glue("Estimated CP: {cp}", 
+       cp = round(obj$par[[cpIndex]],2)),  #changepoint
+              str_glue("Pre-CP Mean = {pre}", 
+              pre = round(obj$pars[[2]],3)),     #pre-cp mean
+              str_glue("Post-CP Mean = {post}", 
+              post = round(obj$pars[[1]],3)))  #post-cp mean
   )
 
   ggplot(data = obj$d, mapping = aes(x = x, y = y))+
