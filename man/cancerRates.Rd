@@ -1,5 +1,5 @@
-\name{bcn}
-\alias{bcn}
+\name{cancerRates}
+\alias{cancerRates}
 \docType{data}
 \title{
   Breast Cancer Rate
@@ -20,8 +20,3 @@
   https://doi.org/10.1002/0470011815.b2a12011
 }
 
-\examples{
-data(bcn)
-## maybe str(bcn) ; plot(bcn) ...
-}
-\keyword{datasets}
