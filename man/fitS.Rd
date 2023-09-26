@@ -55,7 +55,6 @@ fitS(dataIn, xColIndex, yColIndex, slopeIn, depth, family_wise_error_rate, autoT
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \examples{
-library(changepointS)
 n <- 500
 x <- (1:n)/n
 y <- vector(length=n)
