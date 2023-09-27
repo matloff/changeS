@@ -7,7 +7,7 @@
 \description{
   Breast cancer rate for Swedish females between age of 40-50.
 }
-\usage{data("bcn")}
+\usage{data("cancerRates")}
 \format{
   A data frame with 0 observations on the following 2 variables.
   \describe{
