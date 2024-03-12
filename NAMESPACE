@@ -2,7 +2,6 @@ import(nls.multstart)
 import(stats)
 import(ggplot2)
 import(stringr)
-import(broom)
 
 export(fitS)
 export(fitS_linear)

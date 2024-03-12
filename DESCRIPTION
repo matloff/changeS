@@ -1,12 +1,20 @@
 Package: changeS
 Type: Package
-Title: S-curve fit
-Version: 0.1.0
-Author: Collin Kennedy, Lan Jiang, Norm Matloff
+Title: S-Curve Fit for Changepoint Analysis
+Version: 1.0.0
+Author: c(person("Lan", "Jiang", email = "lanjiang@ucdavis.edu", 
+   role = c("aut", "cre")), person("Collin", "Kennedy", email = 
+   "collinjkennedy@gmail.com", role = c("aut", "cre")),
+   c(person("Norm", "Matloff", email = "nsmatloff@ucdavis.edu", role =
+   c("aut", "cre"),  comment = c(ORCID = "0000-0001-9179-6785"))))
 Maintainer: Norm Matloff <nsmatloff@ucdavis.edu>
-Description: TODO
-Depends: nls.multstart, ggplot2, stringr, broom
-License: What license is it under?
+Description: Estimation of changepoints using an "S-curve"
+   approximation. Formation of confidence intervals for changepoint
+   locations and magnitudes. Both abrupt and gradual changes can be
+   modeled.
+Depends: nls.multstart, ggplot2, stringr
+Suggests: knitr,rmarkdown
+VignetteBuilder: knitr
+License: GPL (>= 2) 
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2022-12-14 17:51:54 UTC; OMEN
