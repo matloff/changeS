@@ -37,6 +37,10 @@ approximate a step function.  This enables asymptotic standard errors,
 and associated confidence intervals and tests for changepoint locations
 and change magnitudes.  (However, in the multi-changepoint case, the
 alpha levels are only nominal.)
+
+Note:  The location of a changepoint is considered to be a continuous
+numeric quantity, in contrast to packages such as \code{changepoints}
+where the location is integer-valued.
 }
 
 \value{A \code{'fittedS'} object, containing estimates, standard errors
