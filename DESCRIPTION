@@ -2,7 +2,7 @@ Package: changeS
 Type: Package
 Title: S-Curve Fit for Changepoint Analysis
 Version: 1.0.0
-Author: c(person("Lan", "Jiang", email = "lanjiang@ucdavis.edu", 
+Author: c(person("Lan", "Jiang", email = "jianglanniovo@gmail.com", 
    role = c("aut", "cre")), person("Collin", "Kennedy", email = 
    "collinjkennedy@gmail.com", role = c("aut", "cre")),
    c(person("Norm", "Matloff", email = "nsmatloff@ucdavis.edu", role =
