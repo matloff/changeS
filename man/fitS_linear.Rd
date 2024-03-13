@@ -33,18 +33,4 @@ Object of class \code{"fittedS_linear"}, with components:
 
 \author{Lan Jiang, Collin Kennedy, Norm Matloff}
 
-\examples{
-   \dontrun{
-   n <- 200
-   x <- 1:n + rep(1000, n)
-   y <- vector(length=n)
-   trueChangePt <-round(n*2/5)  # 80
-   y[1:trueChangePt] <- rnorm(trueChangePt,0,10) + 
-      seq(from=20, to=60, length.out=trueChangePt)
-   y[(trueChangePt+1):n] <- rnorm(n-trueChangePt,0,10) + 
-      seq(from=20, to=80, length.out=n-trueChangePt)
-   d <- data.frame(x=x,y=y)
-   fitS_linear(d, 1, 2)
-   }
-}
 
