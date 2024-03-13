@@ -74,6 +74,8 @@ plot(d)
 fitS(d,1,2,10) # abrupt
 fitS(d, 1, 2) # gradual
 
+\dontrun{
+
 # simulated data, changepoints at  i= 383, 855
 n <- 1000
 y <- vector(length = n)
@@ -87,6 +89,8 @@ y[idx[1]:(idx[2]-1)] <- part2
 y[idx[2]:n] <- part3
 df <- data.frame(x = x, y = y)
 fitS(df, 1, 2, depth=2, autoTraverse = TRUE)
+
+}
 
 }
 
