@@ -245,9 +245,10 @@ summary.fittedS <- function(object,...){
   summary(object$nlsOut)
 }
 
-plot.fittedS <- function(object,...){
+plot.fittedS <- function(x,...){
+
   # adapt LJ code with minimal change
-  obj <- object
+  obj <- x
   title <- "Changepoint Plot"
   #should return a ggplot object
   cpIndex <- 3
@@ -255,7 +256,7 @@ plot.fittedS <- function(object,...){
     cpIndex <- 4
   }
 
-  annotate <- data.frame(
+  annot <- data.frame(
     x = c(obj$par[[cpIndex]],(obj$par[[cpIndex]]+min(obj$d$x))/2, 
        (obj$par[[cpIndex]]+max(obj$d$x))/2), #cp,pre, post
     y = c(max(obj$d$y), obj$pars[[2]]/2, (max(obj$d$y) - obj$pars[[1]])/2 ),
@@ -267,6 +268,7 @@ plot.fittedS <- function(object,...){
               post = round(obj$pars[[1]],3)))  #post-cp mean
   )
 
+  x <- annot$x; y <- annot$y
   ggplot(data = obj$d, mapping = aes(x = x, y = y))+
     geom_point(alpha = .8, color = 'black')+
     geom_line(data = obj$d, mapping = aes(x = x, y = fitted, color = "S-fit"))+
@@ -274,7 +276,7 @@ plot.fittedS <- function(object,...){
     scale_color_manual(name = "Curve Type", values = "blue")+
     geom_vline(xintercept = obj$par[[cpIndex]], color = "lightblue", linetype = "dashed")+
     theme_minimal()+
-    geom_label(data = annotate, aes(x = x, y = y, label = label), color = "orange", fontface = "bold")+
+    geom_label(data = annot, aes(x = x, y = y, label = label), color = "orange", fontface = "bold")+
     theme(plot.title = element_text(face = "bold", size = 15, hjust= .5),
           plot.subtitle = element_text(hjust = .5))
 
