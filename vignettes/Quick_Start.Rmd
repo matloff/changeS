@@ -86,20 +86,20 @@ abrupt changes, thus gradual overall.  Thus this is a good example use
 case for our S-curve approach.
 
 ``` r
-> data(cancerRates)
-> crOut <- fitS(cancerRates,1,2)
-> crOut
-[1] "point estimates of the alpha_i"
- postMean   preMean     slope  changePt 
- 8.965952  3.425623  1.178302 43.262817 
-[1] "covariance matrix"
-            postMean    preMean      slope   changePt
-postMean  0.16734502 -0.1215118 -0.1318708 0.02302526
-preMean  -0.12151178  1.1340273  0.5080011 0.44335717
-slope    -0.13187077  0.5080011  0.4107214 0.16400967
-changePt  0.02302526  0.4433572  0.1640097 0.29987282
-[1] "standard error of the difference between pre-changepoint and post-changepoint means"
-[1] 1.242737
+data(cancerRates)
+crOut <- fitS(cancerRates,1,2)
+crOut
+# [1] "point estimates of the alpha_i"
+#  postMean   preMean     slope  changePt 
+#  8.965952  3.425623  1.178302 43.262817 
+# [1] "covariance matrix"
+#             postMean    preMean      slope   changePt
+# postMean  0.16734502 -0.1215118 -0.1318708 0.02302526
+# preMean  -0.12151178  1.1340273  0.5080011 0.44335717
+# slope    -0.13187077  0.5080011  0.4107214 0.16400967
+# changePt  0.02302526  0.4433572  0.1640097 0.29987282
+# [1] "standard error of the difference between pre-changepoint and post-changepoint means"
+# [1] 1.242737
 
 ```
 
@@ -109,12 +109,84 @@ for us.  This models a gradual change.
 We can plot the output:
 
 ``` r
-> plot(crOut)
+plot(crOut)
 ```
 
 <img src="breast_cancer_plot.jpeg" width="600" height="450" />
 
-# Reference
+# Example: piecewise linear model
+
+``` r
+nileOutLin <- fitS_linear(nile,1,2)  # abrupt change model 
+nileOutLin 
+summary(nileOutLin) 
+ 
+# Formula: y ~ big_linear_guy(b1, h1, s1, c, b2, h2, s2, x = x)
+# 
+# Parameters:
+#      Estimate Std. Error  t value Pr(>|t|)    
+# b1  1.557e+01  6.128e+00    2.541   0.0127 *  
+# h1  9.530e-01  8.300e-01    1.148   0.2538    
+# s1  4.017e-01  6.439e-02    6.239 1.29e-08 ***
+# c   1.890e+03  6.462e-01 2925.640  < 2e-16 ***
+# b2 -2.806e+04  1.151e+04   -2.438   0.0167 *  
+# h2 -9.977e+02  1.608e+03   -0.620   0.5366    
+# s2  4.210e-01  6.951e-02    6.057 2.91e-08 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 127.7 on 93 degrees of freedom
+# 
+# Number of iterations to convergence: 71 
+# Achieved convergence tolerance: 1.49e-08
+
+```
+
+# Comparison to Other Packages
+
+There are many R packages for determining changepoints. We will mentipn
+two here for comparison to **changeS**, the **changepoints** and **mcp**
+packages.
+
+* Types of changes
+
+    - **changeS** package is the only one of the three to handle both 
+    abrupt and gradual changes; 
+
+    - the other two model only the abrupt case.
+
+* Changepoint location domain 
+
+    -  **changepoints** assumes that the location of a changepoint
+       is an integer
+
+    - **changeS** and **mcp** assume the location is a general
+      continuous number
+
+* Statistical basis
+
+    - **changepoints** offers several different methods, but the
+      general theme is to conduct a series of statistical hypothesis tests at
+      various candiate integer locations  
+
+    - **changeS** uses nonlinear least-squares estimation
+
+    - **mcp** takes the Bayesian philosophy
+
+* Uncertainty analysis: changepoint locations and magnitudes
+
+    - **changepoints** does not form confidence intervals for these
+       quantities
+
+    - **changeS** offers confidence intervals
+
+    - **mcp** offers Bayesian credible intervals
+
+
+
+changes
+
+# References
 
 An S-Curve Method for Abrupt and Gradual Changepoint Analysis, Lan
 Jiang, Collin Kennedy, Norman Matloff;  SDSS 2023
