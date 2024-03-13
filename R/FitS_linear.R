@@ -1,5 +1,4 @@
-fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL,
-                     family_wise_error_rate = .05) {
+fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL){
   if (is.ts(dataIn)) {
     d <- data.frame(x=time(dataIn),y=as.numeric(dataIn))
   } else if (is.vector(dataIn)) {

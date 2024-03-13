@@ -1,8 +1,6 @@
 
 fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1,
                  family_wise_error_rate = .05, autoTraverse=TRUE) {
-  # Preliminary work (should be a smarter way to do this but haven't found yet)
-  # library(nls.multstart)
   fitGenLogit_unfixed <- function(postMean, preMean, slope, changePt, x) {
     return((postMean-preMean)/(1+exp(-slope*(x-changePt))) + preMean)
   }
