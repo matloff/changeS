@@ -16,11 +16,108 @@ knitr::opts_chunk$set(
 )
 ```
 
-An S-Curve Method for Estimating Abrupt and Gradual Changepoints
+**An S-Curve Method for Estimating Abrupt and Gradual Changepoints**
 
 # Using This Document for a Quick Introduction to the Package
 
 Reading through the first example ("Vocabulary Acquisition") is
 sufficient for a quick start.
 
+# What this Package Does
 
+The code here does changepoint detection/estimation for changes in mean,
+performed by using an S-curve (logistic function) to approximate a step
+function.  This enables asymptotic standard errors, and associated
+confidence intervals and tests for changepoint locations and change
+magnitudes.  Both abrupt and gradual changes may be modeled.  Also,
+changes in slope and intercept in piecewise linear models can be
+analyzed.
+
+# Example: Nile River data
+
+The **Nile** dataset, built-in to R, consists of yearly measurements of
+the height of the river during 1871-1970.  Here is the code:
+
+``` r
+> nile <- data.frame(t=1871:1970, ht=Nile)
+> nileOut <- fitS(nile,1,2,10)  # abrupt change model
+> nileOut
+[1] "point estimates of the alpha_i"
+ postMean   preMean  changePt 
+ 849.9696 1097.9298 1898.3814 
+[1] "covariance matrix"
+            postMean     preMean    changePt
+postMean 228.8062041   0.7764724  -0.5270315
+preMean    0.7764724 609.8103449 -11.2918541
+changePt  -0.5270315 -11.2918541   6.1601174
+[1] "standard error of the difference between pre-changepoint and post-changepoint means"
+[1] 28.93205
+```
+
+Our model concluded that there is an abrupt changepoint
+in the middle of year 1898. This matches the fact that the British
+started the construction of the Aswan Low Dam in that year.
+
+Here domain expertise would identify the location of the changepoint, so
+the main interest is the value of the change.  A major drop of water
+flow is detected around this point, from 1097.75 down to 849.972.
+
+An approximate 95% confidence interval for the change in mean would then
+be 
+
+849.972 - 1097.75 &plusmn;  1.96 x 28.93205
+
+We modeled an abrupt change here, by setting the S-curve slope to a
+large value, 10.
+
+# Example: Cancer Occurrence Rate
+
+We next consider applying the S-Curve approach to data collected in
+women in Sweden on the rates of breast cancer.  There had been
+speculation that such rates rise with the onset of menopause
+(Pawitan, 2005; we are grateful to Prof. Pawitan for making his data
+available).
+
+While that paper considers an abrupt model, the relationship, if one
+exists, may be gradual.  For a given woman the transition to menopause
+is gradual.  And even if it were abrupt, different women experience
+menopause at different ages, so that the data would follow a mixture of
+abrupt changes, thus gradual overall.  Thus this is a good example use
+case for our S-curve approach.
+
+``` r
+> data(cancerRates)
+> crOut <- fitS(cancerRates,1,2)
+> crOut
+[1] "point estimates of the alpha_i"
+ postMean   preMean     slope  changePt 
+ 8.965952  3.425623  1.178302 43.262817 
+[1] "covariance matrix"
+            postMean    preMean      slope   changePt
+postMean  0.16734502 -0.1215118 -0.1318708 0.02302526
+preMean  -0.12151178  1.1340273  0.5080011 0.44335717
+slope    -0.13187077  0.5080011  0.4107214 0.16400967
+changePt  0.02302526  0.4433572  0.1640097 0.29987282
+[1] "standard error of the difference between pre-changepoint and post-changepoint means"
+[1] 1.242737
+
+```
+
+Here we did not specify an S-curve slope, asking **fitS** to estimate it
+for us.  This models a gradual change.
+
+We can plot the output:
+
+``` r
+> plot(crOut)
+```
+
+<img src="breast_cancer_plot.jpeg" width="600" height="450" />
+
+# Reference
+
+An S-Curve Method for Abrupt and Gradual Changepoint Analysis, Lan
+Jiang, Collin Kennedy, Norman Matloff;  SDSS 2023
+
+*Encyclopedia of Biostatistics*, Change-point Problem Yudi Pawitan,
+2005, https://doi.org/10.1002/0470011815.b2a12011
