@@ -1,6 +1,5 @@
 \name{cancerRates}
 \alias{cancerRates}
-\docType{data}
 \title{
   Breast Cancer Dataset
 }
