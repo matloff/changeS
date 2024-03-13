@@ -62,6 +62,8 @@ fitS(nile,1,2,10)  # abrupt change model
 data(cancerRates)
 fitS(cancerRates,1,2)  # gradual change model
 
+\dontrun{
+
 # simulated data, changepoint at i = 367
 n <- 500
 x <- (1:n)/n
@@ -73,8 +75,6 @@ d <- data.frame(x=x,y=y)
 plot(d)
 fitS(d,1,2,10) # abrupt
 fitS(d, 1, 2) # gradual
-
-\dontrun{
 
 # simulated data, changepoints at  i= 383, 855
 n <- 1000
