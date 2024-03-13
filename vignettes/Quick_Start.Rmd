@@ -1,0 +1,26 @@
+
+---
+title: "Quick_Start"
+output:
+   rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Quick_Start}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+An S-Curve Method for Estimating Abrupt and Gradual Changepoints
+
+# Using This Document for a Quick Introduction to the Package
+
+Reading through the first example ("Vocabulary Acquisition") is
+sufficient for a quick start.
+
+
