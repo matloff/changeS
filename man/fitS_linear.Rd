@@ -18,20 +18,21 @@ fitS_linear(dataIn,xColIndex=NULL,yColIndex=NULL,
 \details{
 Linear model analog of \code{fitS}.  Note:  May have long run times.
 }
+
 \value{
 
-  Object of class \code{"fittedS_linear"}, with components:
+Object of class \code{"fittedS_linear"}, with components:
 
-  \item{b1}{ The pre-changepoint slope.  }
-  \item{h1}{ The post-changepoint slope.  }
-  \item{s1}{ The change in slope.  }
-  \item{c}{ The changepoint.  }
-  \item{b2}{ Pre-changepoint intercept.  }
-  \item{h2}{ Post-changepoint intercept.  }
-  \item{s2}{ Change in intercept.  }
+  \item{b1}{The pre-changepoint slope.}
+  \item{h1}{The post-changepoint slope.}
+  \item{s1}{The change in slope.}
+  \item{c}{The changepoint.}
+  \item{b2}{Pre-changepoint intercept.}
+  \item{h2}{Post-changepoint intercept.}
+  \item{s2}{Change in intercept.}
 }
 
-\author{ Lan Jiang, Collin Kennedy, Norm Matloff}
+\author{Lan Jiang, Collin Kennedy, Norm Matloff}
 
 \examples{
    \dontrun{

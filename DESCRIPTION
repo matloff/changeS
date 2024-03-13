@@ -12,7 +12,7 @@ Description: Estimation of changepoints using an "S-curve"
    approximation. Formation of confidence intervals for changepoint
    locations and magnitudes. Both abrupt and gradual changes can be
    modeled.
-Depends: nls.multstart, ggplot2, stringr
+Depends: R (>= 3.5.0), nls.multstart, ggplot2, stringr
 Suggests: knitr,rmarkdown
 VignetteBuilder: knitr
 License: GPL (>= 2) 
