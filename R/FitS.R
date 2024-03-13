@@ -241,20 +241,19 @@ print.fittedS <- function(x,...)
 }
 
 
-summary.fittedS <- function(obj){
-  summary(obj$nlsOut)
+summary.fittedS <- function(object,...){
+  summary(object$nlsOut)
 }
 
-plot.fittedS <- function(x,...){
+plot.fittedS <- function(object,...){
   # adapt LJ code with minimal change
-  obj <- x
+  obj <- object
   title <- "Changepoint Plot"
   #should return a ggplot object
   cpIndex <- 3
   if (obj$slopeGenerated) {
     cpIndex <- 4
   }
-
 
   annotate <- data.frame(
     x = c(obj$par[[cpIndex]],(obj$par[[cpIndex]]+min(obj$d$x))/2, 
@@ -275,12 +274,7 @@ plot.fittedS <- function(x,...){
     scale_color_manual(name = "Curve Type", values = "blue")+
     geom_vline(xintercept = obj$par[[cpIndex]], color = "lightblue", linetype = "dashed")+
     theme_minimal()+
-    # annotate("text", x = obj$par[[cpIndex]], y = max(obj$d$y), colour = "orange", label = str_glue("Estimated CP: {cp}", cp = round(obj$par[[cpIndex]],2)))+
     geom_label(data = annotate, aes(x = x, y = y, label = label), color = "orange", fontface = "bold")+
-    # annotate("text", x = obj$par[[cpIndex]]/2, y = obj$pars[[2]]/2, colour = "orange", label = str_glue("Pre-Changepoint Mean: {pre}", pre = round(obj$pars[[2]],3)))+ #pre-mean
-    # annotate("text",x = (max(obj$d$x)-obj$par[[cpIndex]]/2), y = (max(obj$d$y) - obj$pars[[1]])/2, colour = "orange", label = str_glue("Post-Changepoint Mean: {post}", post = round(obj$pars[[1]],3)))+
-    # # annotate("text", x = obj$par[[cpIndex]]+20, y = max(y)-150, label = str_glue('(std. error: {std.error})', std.error = round(std_error_cp,3)))+
-    # scale_x_continuous(breaks = seq(min(obj$d$x),max(obj$d$x), by = 10))+
     theme(plot.title = element_text(face = "bold", size = 15, hjust= .5),
           plot.subtitle = element_text(hjust = .5))
 
