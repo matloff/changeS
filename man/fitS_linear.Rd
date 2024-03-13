@@ -5,8 +5,7 @@
 intercept and slope, for piecewise linear models.
 }
 \usage{
-fitS_linear(dataIn,xColIndex=NULL,yColIndex=NULL,
-   family_wise_error_rate = 0.05) 
+fitS_linear(dataIn,xColIndex=NULL,yColIndex=NULL)
 }
 
 \arguments{
