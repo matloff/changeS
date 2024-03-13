@@ -2,12 +2,12 @@ Package: changeS
 Type: Package
 Title: S-Curve Fit for Changepoint Analysis
 Version: 1.0.0
-Author: c(
-  person("Lan", "Jiang", email = "jianglanniovo@gmail.com", 
-     role = c("aut", "cre")), 
-  person("Collin", "Kennedy", email = 
-     "collinjkennedy@gmail.com", role = c("aut", "cre")),
-  person("Norm", "Matloff", email = "nsmatloff@ucdavis.edu", role =
+Authors@R: c(
+  person(given="Lan", family="Jiang", email = "jianglanniovo@gmail.com", 
+     role = "aut"), 
+  person(given="Collin", family="Kennedy", email = 
+     "collinjkennedy@gmail.com", role = "aut"),
+  person(given="Norm", family="Matloff", email = "nsmatloff@ucdavis.edu", role =
      c("aut", "cre"),  comment = c(ORCID = "0000-0001-9179-6785")))
 Maintainer: Norm Matloff <nsmatloff@ucdavis.edu>
 Description: Estimation of changepoints using an "S-curve"
