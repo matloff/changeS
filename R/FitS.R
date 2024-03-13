@@ -221,7 +221,7 @@ print.fittedS <- function(x,...)
    listAllCp <- FALSE
    print('point estimates of the alpha_i')
    print(obj$pars)
-   if (is(obj, "fittedS_linear")) {
+   if (inherits(obj, "fittedS_linear")) {
      return()
    }
    print('covariance matrix')
@@ -268,7 +268,7 @@ plot.fittedS <- function(x,...){
               post = round(obj$pars[[1]],3)))  #post-cp mean
   )
 
-  x <- annot$x; y <- annot$y
+  x <- annot$x; y <- annot$y; label <- annot$label
   ggplot(data = obj$d, mapping = aes(x = x, y = y))+
     geom_point(alpha = .8, color = 'black')+
     geom_line(data = obj$d, mapping = aes(x = x, y = fitted, color = "S-fit"))+
