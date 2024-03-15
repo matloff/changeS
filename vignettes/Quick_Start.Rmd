@@ -20,18 +20,21 @@ knitr::opts_chunk$set(
 
 # Using This Document for a Quick Introduction to the Package
 
-Reading through the first example ("Vocabulary Acquisition") is
+Reading through the first example ("Nile River Data") is
 sufficient for a quick start.
 
 # What this Package Does
 
-The code here does changepoint detection/estimation for changes in mean,
+The code here implements the method of Jiang *et al* (023), whch
+does changepoint detection/estimation for changes in mean,
 performed by using an S-curve (logistic function) to approximate a step
 function.  This enables asymptotic standard errors, and associated
 confidence intervals and tests for changepoint locations and change
-magnitudes.  Both abrupt and gradual changes may be modeled.  Also,
-changes in slope and intercept in piecewise linear models can be
-analyzed.
+magnitudes.  Both abrupt and gradual changes may be modeled.  
+
+Also, changes in slope and intercept in piecewise linear models can be
+analyzed, again with the ability to form confidence intervals for the
+various quantities of interest..
 
 # Example: Nile River data
 
@@ -39,19 +42,19 @@ The **Nile** dataset, built-in to R, consists of yearly measurements of
 the height of the river during 1871-1970.  Here is the code:
 
 ``` r
-> nile <- data.frame(t=1871:1970, ht=Nile)
-> nileOut <- fitS(nile,1,2,10)  # abrupt change model
-> nileOut
-[1] "point estimates of the alpha_i"
- postMean   preMean  changePt 
- 849.9696 1097.9298 1898.3814 
-[1] "covariance matrix"
-            postMean     preMean    changePt
-postMean 228.8062041   0.7764724  -0.5270315
-preMean    0.7764724 609.8103449 -11.2918541
-changePt  -0.5270315 -11.2918541   6.1601174
-[1] "standard error of the difference between pre-changepoint and post-changepoint means"
-[1] 28.93205
+nile <- data.frame(t=1871:1970, ht=Nile)
+nileOut <- fitS(nile,1,2,10)  # abrupt change model
+nileOut
+# [1] "point estimates of the alpha_i"
+#  postMean   preMean  changePt 
+#  849.9696 1097.9298 1898.3814 
+# [1] "covariance matrix"
+#             postMean     preMean    changePt
+# postMean 228.8062041   0.7764724  -0.5270315
+# preMean    0.7764724 609.8103449 -11.2918541
+# changePt  -0.5270315 -11.2918541   6.1601174
+# [1] "standard error of the difference between pre-changepoint and post-changepoint means"
+# [1] 28.93205
 ```
 
 Our model concluded that there is an abrupt changepoint
@@ -73,16 +76,16 @@ large value, 10.
 # Example: Cancer Occurrence Rate
 
 We next consider applying the S-Curve approach to data collected in
-women in Sweden on the rates of breast cancer.  There had been
-speculation that such rates rise with the onset of menopause
-(Pawitan, 2005; we are grateful to Prof. Pawitan for making his data
-available).
+on the rates of breast cancer among women in Sweden.  There had been
+speculation that such rates rise with the onset of menopause; see
+Pawitan (2005; we are grateful to Prof. Pawitan for making his data
+available.
 
 While that paper considers an abrupt model, the relationship, if one
 exists, may be gradual.  For a given woman the transition to menopause
 is gradual.  And even if it were abrupt, different women experience
 menopause at different ages, so that the data would follow a mixture of
-abrupt changes, thus gradual overall.  Thus this is a good example use
+abrupt changes, hence gradual overall.  Thus this is a good example use
 case for our S-curve approach.
 
 ``` r
@@ -116,6 +119,11 @@ plot(crOut)
 
 # Example: piecewise linear model
 
+This dataset came from a study that investigated the impact of Medicare,
+the US medical insurance program for retired people.  One nomimally
+qualifies at age 65, though this can occur earlier or later.  Here we
+consider 90-day mortality in relation to age.
+
 ``` r
 # get Medicare data of David Card et al
 con <- url('https://github.com/108michael/ms_thesis/raw/master/medicare.Rdata')
@@ -142,11 +150,6 @@ summary(z)
 # Number of iterations to convergence: 91 
 # Achieved convergence tolerance: 1.49e-08
 ```
-
-Here the dataset investigated the impact of Medicare, the US medical
-insurance program for retired people.  One nomimally qualifies at age
-65, though this can occur earlier or later.  Here we consider 90-day
-mortality in relation to age.
 
 As we would hope, mortality did decline after people became eligible for
 Medicare.  For instance, the intercept went down from -23.9364322 to
@@ -185,7 +188,7 @@ packages.
 
     - **changeS** uses nonlinear least-squares estimation
 
-    - **mcp** takes the Bayesian philosophy
+    - **mcp** takes the Bayesian estimation philosophy
 
 * Uncertainty analysis: changepoint locations and magnitudes
 
@@ -196,9 +199,6 @@ packages.
 
     - **mcp** offers Bayesian credible intervals
 
-
-
-changes
 
 # References
 
