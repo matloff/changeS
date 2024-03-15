@@ -1,6 +1,6 @@
 
 ---
-title: "Quick_Start"
+title: "Quick_Start with the changeS Package"
 output:
    rmarkdown::html_vignette
 vignette: >
