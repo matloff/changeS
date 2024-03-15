@@ -24,11 +24,11 @@ Object of class \code{"fittedS_linear"}, with components:
 
   \item{b1}{The pre-changepoint slope.}
   \item{h1}{The post-changepoint slope.}
-  \item{s1}{The change in slope.}
+  \item{s1}{S-curve slope for finding regression slope.}
   \item{c}{The changepoint.}
   \item{b2}{Pre-changepoint intercept.}
   \item{h2}{Post-changepoint intercept.}
-  \item{s2}{Change in intercept.}
+  \item{s2}{S-curve slope for finding regression slope.}
 }
 
 \author{Lan Jiang, Collin Kennedy, Norm Matloff}
