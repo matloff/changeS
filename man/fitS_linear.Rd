@@ -29,6 +29,11 @@ Object of class \code{"fittedS_linear"}, with components:
   \item{b2}{Pre-changepoint intercept.}
   \item{h2}{Post-changepoint intercept.}
   \item{s2}{S-curve slope for finding regression slope.}
+
+The gap at the changepoint is then
+
+(h2 + h2 c) - (b2 + b1 c)
+
 }
 
 \author{Lan Jiang, Collin Kennedy, Norm Matloff}
