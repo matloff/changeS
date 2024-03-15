@@ -117,40 +117,44 @@ plot(crOut)
 # Example: piecewise linear model
 
 ``` r
-# simulate a "hockey stick," flat value 1 before 0, slope 1 afterward
-x <- (-50):50 
-m <- rep(1,101) 
-m[1:51] <- 1 
-m[52:101] <- 1:50 
-y <- m + rnorm(101,sd=0.2) 
-# form data for fitting
-d <- data.frame(x=x,y=y) 
-q <- fitS_linear(d,1,2) 
-summary(q) 
+# get Medicare data of David Card et al
+con <- url('https://github.com/108michael/ms_thesis/raw/master/medicare.Rdata')
+load(con)
+z <- fitS_linear(medicare[,c(4,3)],1,2)
+summary(z)
 
 # Formula: y ~ big_linear_guy(b1, h1, s1, c, b2, h2, s2, x = x)
 # 
 # Parameters:
-#      Estimate Std. Error t value Pr(>|t|)    
-# b1 -4.610e-04  1.956e-03  -0.236    0.814    
-# h1  9.995e-01  2.218e-03 450.646   <2e-16 ***
-# s1  3.879e+00  5.190e+01   0.075    0.941    
-# c   1.301e+00  9.332e+00   0.139    0.889    
-# b2  1.007e+00  5.676e-02  17.738   <2e-16 ***
-# h2 -2.555e-02  6.709e-02  -0.381    0.704    
-# s2  7.614e+01  4.791e+10   0.000    1.000    
+#     Estimate Std. Error t value Pr(>|t|)    
+# b1   0.60490    0.07135   8.478 9.87e-14 ***
+# h1   0.78810    0.18587   4.240 4.59e-05 ***
+# s1   9.59339  717.41168   0.013  0.98935    
+# c   65.99895    0.10660 619.109  < 2e-16 ***
+# b2 -23.93643    4.40366  -5.436 3.19e-07 ***
+# h2 -37.23297   12.69091  -2.934  0.00406 ** 
+# s2   2.89020    1.76829   1.634  0.10495    
 # ---
 # Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 # 
-# Residual standard error: 0.2056 on 94 degrees of freedom
+# Residual standard error: 0.6417 on 113 degrees of freedom
 # 
-# Number of iterations to convergence: 94 
+# Number of iterations to convergence: 91 
 # Achieved convergence tolerance: 1.49e-08
-
-Sure enough, pre-0 slope before 0 was about 0, about 1 afterward, and so
-on.  Standard errors very small.
-
 ```
+
+Here the dataset investigated the impact of Medicare, the US medical
+insurance program for retired people.  One nomimally qualifies at age
+65, though this can occur earlier or later.  Here we consider 90-day
+mortality in relation to age.
+
+As we would hope, mortality did decline after people became eligible for
+Medicare.  For instance, the intercept went down from -23.9364322 to
+-37.2329709.  Interestingly, the changepoint is close to 66, indicating
+that many people opted to start the program a little later.
+
+An approximate 95% confidence interval for the location of the
+changepoint is 65.99895 &plusmn; 1.96 x  0.10660. 
 
 # Comparison to Other Packages
 
