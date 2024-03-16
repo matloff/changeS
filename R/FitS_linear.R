@@ -38,7 +38,7 @@ plot.fittedS_linear <- function(x,...)
    xlb <- if (!is.null(dn)) dn[1] else 'x'
    ylb <- if (!is.null(dn)) dn[2] else 'y'
    plot(z$d$x,z$d$y,cex=0.4,xlab=xlb,ylab=ylb)
-   title('Before (blue) and After (red) Changepoint')
+   graphics::title('Before (blue) and After (red) Changepoint')
    prs <- z$pars
    minX <- min(z$d$x)
    maxX <- max(z$d$x)
@@ -46,11 +46,11 @@ plot.fittedS_linear <- function(x,...)
    endPtsY <- c(minX,prs['c'])
    lineFtn <- function(t) prs['b2'] + prs['b1']*t
    endPtsY <- lineFtn(endPtsX)
-   lines(endPtsX,endPtsY,col='blue')
+   graphics::lines(endPtsX,endPtsY,col='blue')
    endPtsX <- c(prs['c'],maxX)
    lineFtn <- function(t) prs['h2'] + prs['h1']*t
    endPtsY <- lineFtn(endPtsX)
-   lines(endPtsX,endPtsY,col='red')
+   graphics::lines(endPtsX,endPtsY,col='red')
 
 }
 
