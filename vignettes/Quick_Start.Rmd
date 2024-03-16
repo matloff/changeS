@@ -159,6 +159,8 @@ that many people opted to start the program a little later.
 An approximate 95% confidence interval for the location of the
 changepoint is 65.99895 &plusmn; 1.96 x  0.10660. 
 
+<img src="medicare.png" width="600" height="450" />
+
 # Comparison to Other Packages
 
 There are many R packages for determining changepoints. We will mentipn
