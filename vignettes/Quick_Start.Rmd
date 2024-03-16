@@ -73,7 +73,7 @@ be
 We modeled an abrupt change here, by setting the S-curve slope to a
 large value, 10.
 
-# Example: Cancer Occurrence Rate
+# Example: Cancer Occurrence Rates
 
 We next consider applying the S-Curve approach to data collected in
 on the rates of breast cancer among women in Sweden.  There had been
