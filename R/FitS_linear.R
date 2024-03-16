@@ -4,6 +4,7 @@ fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL){
   } else if (is.vector(dataIn)) {
     d <- data.frame(x=1:length(dataIn),y=dataIn)
   } else {
+    dNames <- names(dataIn)[c(xColIndex,yColIndex)]
     d <- data.frame(x=dataIn[[xColIndex]], y=dataIn[[yColIndex]])
   }
 
@@ -23,6 +24,7 @@ fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL){
   retObj <- list(nlsOut=ret)  # returned object from nls_multstart
   retObj$pars <- ret$m$getAllPars()  # pre-, post-means, maybe slope, changept
   retObj$d <- d  # x and y
+  retObj$dNames <- if (exists('dNames')) dNames else NULL
   retObj$d$fitted <- predict(ret) #  generate predictions and add to dataframe 'd'
 
   class(retObj) <- c("fittedS_linear", "fittedS")
@@ -32,7 +34,10 @@ fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL){
 plot.fittedS_linear <- function(x,...)
 {
    z <- x
-   plot(z$d$x,z$d$y,cex=0.4,xlab='x',ylab='y')
+   dn <- z$dNames
+   xlb <- if (!is.null(dn)) dn[1] else 'x'
+   ylb <- if (!is.null(dn)) dn[2] else 'y'
+   plot(z$d$x,z$d$y,cex=0.4,xlab=xlb,ylab=ylb)
    title('Before (blue) and After (red) Changepoint')
    prs <- z$pars
    minX <- min(z$d$x)
