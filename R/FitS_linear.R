@@ -28,3 +28,24 @@ fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL){
   class(retObj) <- c("fittedS_linear", "fittedS")
   retObj
 }
+
+plot.fittedS_linear <- function(x,...)
+{
+   z <- x
+   plot(z$d$x,z$d$y,cex=0.4,xlab='x',ylab='y')
+   title('Before (blue) and After (red) Changepoint')
+   prs <- z$pars
+   minX <- min(z$d$x)
+   maxX <- max(z$d$x)
+   endPtsX <- c(minX,prs['c'])
+   endPtsY <- c(minX,prs['c'])
+   lineFtn <- function(t) prs['b2'] + prs['b1']*t
+   endPtsY <- lineFtn(endPtsX)
+   lines(endPtsX,endPtsY,col='blue')
+   endPtsX <- c(prs['c'],maxX)
+   lineFtn <- function(t) prs['h2'] + prs['h1']*t
+   endPtsY <- lineFtn(endPtsX)
+   lines(endPtsX,endPtsY,col='red')
+
+}
+
