@@ -23,9 +23,9 @@ knitr::opts_chunk$set(
 Reading through the first example ("Nile River Data") is
 sufficient for a quick start.
 
-# What this Package Does
+# What This Package Does
 
-The code here implements the method of Jiang *et al* (023), whch
+The code here implements the method of Jiang *et al* (2023), whch
 does changepoint detection/estimation for changes in mean,
 performed by using an S-curve (logistic function) to approximate a step
 function.  This enables asymptotic standard errors, and associated
@@ -60,18 +60,21 @@ nileOut
 Our model concluded that there is an abrupt changepoint
 in the middle of year 1898. This matches the fact that the British
 started the construction of the Aswan Low Dam in that year.
+We modeled an abrupt change here, by setting the S-curve slope to a
+large value, 10.
 
 Here domain expertise would identify the location of the changepoint, so
 the main interest is the value of the change.  A major drop of water
 flow is detected around this point, from 1097.75 down to 849.972.
-
 An approximate 95% confidence interval for the change in mean would then
 be 
 
 849.972 - 1097.75 &plusmn;  1.96 x 28.93205
 
-We modeled an abrupt change here, by setting the S-curve slope to a
-large value, 10.
+We can also plot the fit against the raw data:
+
+<img src="nile.png" width="600" height="450" />
+
 
 # Example: Cancer Occurrence Rates
 
