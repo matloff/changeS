@@ -265,14 +265,14 @@ plot.fittedS <- function(x,...)
    postMean <- prs['postMean']
 
    if (is.null(z$slopeIn)) {  # gradual change
-      graphics::title('Gradual Change')
+      # graphics::title('Gradual Change')
       a4 <- z$slope
       h <- function(t,preMean,postMean,changePt,a4) 
          preMean + (postMean-preMean) / (1+exp(-a4*(t-changePt))) 
       g <- function(t) h(t,preMean,postMean,changePt,a4) 
       curve(g,minX,maxX,add=T,col='blue')
    } else {  # abrupt change
-      graphics::title('Abrupt Change')
+      # graphics::title('Abrupt Change')
       firstFlat <- prs['preMean']
       lines(c(minX,changePt),c(firstFlat,firstFlat),col='blue')
       secondFlat <- prs['postMean']
