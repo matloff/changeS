@@ -1,6 +1,7 @@
 
 fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1,
-                 family_wise_error_rate = .05, autoTraverse=TRUE) {
+                 family_wise_error_rate = .05, autoTraverse=TRUE,
+                 plotTitle = '') {
 
   fitGenLogit_unfixed <- function(postMean, preMean, slope, changePt, x) {
     return((postMean-preMean)/(1+exp(-slope*(x-changePt))) + preMean)
@@ -44,6 +45,7 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1,
 
   retObj <- list(nlsOut=ret)  # returned object from nls_multstart
   retObj$slopeIn <- slopeIn
+  retObj$plotTitle <- plotTitle
   retObj$dNames <- if (exists('dNames')) dNames else NULL
   retObj$pars <- ret$m$getAllPars()  # pre-, post-means, maybe slope, changept
   retObj$d <- d  # x and y
@@ -60,8 +62,6 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1,
   #Binary Segmentation
   retObj$leftPartition <- NULL
   retObj$leftPartition <- NULL
-
-
 
   keep_dividing <- TRUE
   # When to stop going
@@ -278,6 +278,8 @@ plot.fittedS <- function(x,...)
       secondFlat <- prs['postMean']
       lines(c(changePt,maxX),c(secondFlat,secondFlat),col='red')
    }
+
+   if (z$plotTitle != '') graphics::title(z$plotTitle)
 
 }
 

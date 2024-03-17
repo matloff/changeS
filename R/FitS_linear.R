@@ -1,4 +1,7 @@
-fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL){
+
+fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL,
+    plotTitle='') {
+
   if (is.ts(dataIn)) {
     d <- data.frame(x=time(dataIn),y=as.numeric(dataIn))
   } else if (is.vector(dataIn)) {
@@ -25,6 +28,7 @@ fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL){
   retObj$pars <- ret$m$getAllPars()  # pre-, post-means, maybe slope, changept
   retObj$d <- d  # x and y
   retObj$dNames <- if (exists('dNames')) dNames else NULL
+  retObj$plotTitle <- plotTitle
   retObj$d$fitted <- predict(ret) #  generate predictions and add to dataframe 'd'
 
   class(retObj) <- c("fittedS_linear", "fittedS")
@@ -51,6 +55,7 @@ plot.fittedS_linear <- function(x,...)
    lineFtn <- function(t) prs['h2'] + prs['h1']*t
    endPtsY <- lineFtn(endPtsX)
    graphics::lines(endPtsX,endPtsY,col='red')
+   if (z$plotTitle != '') graphics::title(z$plotTitle)
 
 }
 
