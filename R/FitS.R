@@ -274,9 +274,9 @@ plot.fittedS <- function(x,...)
    } else {  # abrupt change
       graphics::title('Abrupt Change')
       firstFlat <- prs['preMean']
-      lines(c(minX,changePt),c(firstFlat,firstFlat))
+      lines(c(minX,changePt),c(firstFlat,firstFlat),col='blue')
       secondFlat <- prs['postMean']
-      lines(c(changePt,maxX),c(secondFlat,secondFlat))
+      lines(c(changePt,maxX),c(secondFlat,secondFlat),col='red')
    }
 
 }

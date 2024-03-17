@@ -38,7 +38,7 @@ plot.fittedS_linear <- function(x,...)
    xlb <- if (!is.null(dn)) dn[1] else 'x'
    ylb <- if (!is.null(dn)) dn[2] else 'y'
    plot(z$d$x,z$d$y,cex=0.4,xlab=xlb,ylab=ylb)
-   graphics::title('Before (blue) and After (red) Changepoint')
+   graphics::title('Piecewise Linear Model')
    prs <- z$pars
    minX <- min(z$d$x)
    maxX <- max(z$d$x)
