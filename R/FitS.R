@@ -1,6 +1,7 @@
 
 fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1,
                  family_wise_error_rate = .05, autoTraverse=TRUE) {
+
   fitGenLogit_unfixed <- function(postMean, preMean, slope, changePt, x) {
     return((postMean-preMean)/(1+exp(-slope*(x-changePt))) + preMean)
   }
@@ -16,6 +17,7 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1,
   } else if (is.vector(dataIn)) {
      d <- data.frame(x=1:length(dataIn),y=dataIn)
   } else {
+     dNames <- names(dataIn)[c(xColIndex,yColIndex)]
      d <- data.frame(x=dataIn[[xColIndex]], y=dataIn[[yColIndex]])
   }
 
@@ -41,6 +43,8 @@ fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1,
   }
 
   retObj <- list(nlsOut=ret)  # returned object from nls_multstart
+  retObj$slopeIn <- slopeIn
+  retObj$dNames <- if (exists('dNames')) dNames else NULL
   retObj$pars <- ret$m$getAllPars()  # pre-, post-means, maybe slope, changept
   retObj$d <- d  # x and y
   retObj$d$fitted <- predict(ret) #  generate predictions and add to dataframe 'd'
@@ -245,42 +249,75 @@ summary.fittedS <- function(object,...){
   summary(object$nlsOut)
 }
 
-plot.fittedS <- function(x,...){
+plot.fittedS <- function(x,...)
+{
 
-  # adapt LJ code with minimal change
-  obj <- x
-  title <- "Changepoint Plot"
-  #should return a ggplot object
-  cpIndex <- 3
-  if (obj$slopeGenerated) {
-    cpIndex <- 4
-  }
+   z <- x
+   dn <- z$dNames
+   xlb <- if (!is.null(dn)) dn[1] else 'x'
+   ylb <- if (!is.null(dn)) dn[2] else 'y'
+   plot(z$d$x,z$d$y,cex=0.4,xlab=xlb,ylab=ylb)
+   prs <- z$pars
+   minX <- min(z$d$x)
+   maxX <- max(z$d$x)
+   changePt <- prs['changePt']
+   preMean <- prs['preMean']
+   postMean <- prs['postMean']
 
-  annot <- data.frame(
-    x = c(obj$par[[cpIndex]],(obj$par[[cpIndex]]+min(obj$d$x))/2, 
-       (obj$par[[cpIndex]]+max(obj$d$x))/2), #cp,pre, post
-    y = c(max(obj$d$y), obj$pars[[2]]/2, (max(obj$d$y) - obj$pars[[1]])/2 ),
-    label = c(str_glue("Estimated CP: {cp}", 
-       cp = round(obj$par[[cpIndex]],2)),  #changepoint
-              str_glue("Pre-CP Mean = {pre}", 
-              pre = round(obj$pars[[2]],3)),     #pre-cp mean
-              str_glue("Post-CP Mean = {post}", 
-              post = round(obj$pars[[1]],3)))  #post-cp mean
-  )
-
-  x <- annot$x; y <- annot$y; label <- annot$label
-  ggplot(data = obj$d, mapping = aes(x = x, y = y))+
-    geom_point(alpha = .8, color = 'black')+
-    geom_line(data = obj$d, mapping = aes(x = x, y = fitted, color = "S-fit"))+
-    ggtitle(title)+
-    scale_color_manual(name = "Curve Type", values = "blue")+
-    geom_vline(xintercept = obj$par[[cpIndex]], color = "lightblue", linetype = "dashed")+
-    theme_minimal()+
-    geom_label(data = annot, aes(x = x, y = y, label = label), color = "orange", fontface = "bold")+
-    theme(plot.title = element_text(face = "bold", size = 15, hjust= .5),
-          plot.subtitle = element_text(hjust = .5))
+   if (is.null(z$slopeIn)) {  # gradual change
+      graphics::title('Gradual Change')
+      a4 <- z$slope
+      h <- function(t,preMean,postMean,changePt,a4) 
+         preMean + (postMean-preMean) / (1+exp(-a4*(t-changePt))) 
+      g <- function(t) h(t,preMean,postMean,changePt,a4) 
+      curve(g,minX,maxX,add=T,col='blue')
+   } else {  # abrupt change
+      graphics::title('Abrupt Change')
+      firstFlat <- prs['preMean']
+      lines(c(minX,changePt),c(firstFlat,firstFlat))
+      secondFlat <- prs['postMean']
+      lines(c(changePt,maxX),c(secondFlat,secondFlat))
+   }
 
 }
+
+
+###  plot.fittedS <- function(x,...){
+ 
+###    # adapt LJ code with minimal change
+###    obj <- x
+###    title <- "Changepoint Plot"
+###    #should return a ggplot object
+###    cpIndex <- 3
+###    if (obj$slopeGenerated) {
+###      cpIndex <- 4
+###    }
+###  
+###    annot <- data.frame(
+###      x = c(obj$par[[cpIndex]],(obj$par[[cpIndex]]+min(obj$d$x))/2, 
+###         (obj$par[[cpIndex]]+max(obj$d$x))/2), #cp,pre, post
+###      y = c(max(obj$d$y), obj$pars[[2]]/2, (max(obj$d$y) - obj$pars[[1]])/2 ),
+###      label = c(str_glue("Estimated CP: {cp}", 
+###         cp = round(obj$par[[cpIndex]],2)),  #changepoint
+###                str_glue("Pre-CP Mean = {pre}", 
+###                pre = round(obj$pars[[2]],3)),     #pre-cp mean
+###                str_glue("Post-CP Mean = {post}", 
+###                post = round(obj$pars[[1]],3)))  #post-cp mean
+###    )
+###  
+###    x <- annot$x; y <- annot$y; label <- annot$label
+###    ggplot(data = obj$d, mapping = aes(x = x, y = y))+
+###      geom_point(alpha = .8, color = 'black')+
+###      geom_line(data = obj$d, mapping = aes(x = x, y = fitted, color = "S-fit"))+
+###      ggtitle(title)+
+###      scale_color_manual(name = "Curve Type", values = "blue")+
+###      geom_vline(xintercept = obj$par[[cpIndex]], color = "lightblue", linetype = "dashed")+
+###      theme_minimal()+
+###      geom_label(data = annot, aes(x = x, y = y, label = label), color = "orange", fontface = "bold")+
+###      theme(plot.title = element_text(face = "bold", size = 15, hjust= .5),
+###            plot.subtitle = element_text(hjust = .5))
+###  
+###  }
 
 
 
