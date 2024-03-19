@@ -5,7 +5,7 @@
 
 \description{Finds change(s) in mean.}
 \usage{fitS(dataIn,xColIndex=NULL,yColIndex=NULL,slopeIn=NULL,depth=1,
-   family_wise_error_rate=0.05,autoTraverse=TRUE)
+   family_wise_error_rate=0.05,autoTraverse=TRUE,plotTitle = '')
 }
 
 \arguments{
@@ -30,6 +30,8 @@
   
   \item{autoTraverse}{If TRUE, do automatic binary segmentation.
   Meaningful only of \code{depth} larger than 1.}
+
+  \item{plotTitle}{Title for output plot, if any.}
 
 }
 

@@ -5,13 +5,14 @@
 intercept and slope, for piecewise linear models.
 }
 \usage{
-fitS_linear(dataIn,xColIndex=NULL,yColIndex=NULL)
+fitS_linear(dataIn,xColIndex=NULL,yColIndex=NULL,plotTitle = '')
 }
 
 \arguments{
   \item{dataIn}{Data frame or equivalent.}
   \item{xColIndex}{Column number of "x" (typically time).}
   \item{yColIndex}{Column number of "y".}
+  \item{plotTitle}{Title for output plot, if any.}
 }
 
 \details{
