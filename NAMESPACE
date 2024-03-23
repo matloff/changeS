@@ -3,9 +3,12 @@ import(stats)
 import(ggplot2)
 import(stringr)
 
+importFrom("graphics", "curve", "lines")
+
 export(fitS)
 export(fitS_linear)
 
 S3method(print,fittedS)
 S3method(plot,fittedS)
+S3method(plot,fittedS_linear)
 S3method(summary,fittedS)

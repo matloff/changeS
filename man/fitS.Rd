@@ -64,7 +64,7 @@ fitS(nile,1,2,10)  # abrupt change model
 data(cancerRates)
 fitS(cancerRates,1,2)  # gradual change model
 
-\dontrun{
+\donttest{
 
 # simulated data, changepoint at i = 367
 n <- 500
