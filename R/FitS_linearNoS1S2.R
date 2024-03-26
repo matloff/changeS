@@ -1,5 +1,5 @@
 
-fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL, 
+fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL,
     plotTitle='') {
 
   if (is.ts(dataIn)) {
@@ -11,17 +11,17 @@ fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL,
     d <- data.frame(x=dataIn[[xColIndex]], y=dataIn[[yColIndex]])
   }
 
-  big_linear_guy <- function(b1, h1, s1, c, b2, h2, s2, x) {
-    part1 <- x*(b1+(h1-b1)/(1+exp(-s1*(x-c))))
-    part2 <- b2+(h2-b2)/(1+exp(-s2*(x-c)))
+  big_linear_guy <- function(b1, h1, c, b2, h2, x) {
+    part1 <- x*(b1+(h1-b1)/(1+exp(-10*(x-c))))
+    part2 <- b2+(h2-b2)/(1+exp(-10*(x-c)))
     return(part1+part2)
   }
 
-  ret <- nls_multstart(y~big_linear_guy(b1, h1, s1, c, b2, h2, s2, x=x),
-                       d, iter=rep(5,7),
-                       lower=c(b1=-Inf,h1=-Inf,s1=0,c=min(d$x),b2=-Inf,h2=-Inf,s2=0),
-                       start_lower=c(0,0,0,min(d$x),0,0,0),
-                       start_upper=c(20,20,10^4,max(d$x),20,20,10^4),
+  ret <- nls_multstart(y~big_linear_guy(b1, h1, c, b2, h2, x=x),
+                       d, iter=rep(5,5),
+                       lower=c(b1=-Inf,h1=-Inf,c=min(d$x),b2=-Inf,h2=-Inf),
+                       start_lower=c(0,0,min(d$x),0,0),
+                       start_upper=c(20,20,max(d$x),20,20),
                        supp_errors="Y")
 
   retObj <- list(nlsOut=ret)  # returned object from nls_multstart
