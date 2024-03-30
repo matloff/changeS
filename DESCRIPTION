@@ -1,7 +1,7 @@
 Package: changeS
 Type: Package
 Title: S-Curve Fit for Changepoint Analysis
-Version: 1.0.1
+Version: 1.1.0
 Authors@R: c(
   person(given="Lan", family="Jiang", email = "jianglanniovo@gmail.com", 
      role = "aut"), 
@@ -13,8 +13,10 @@ Maintainer: Norm Matloff <nsmatloff@ucdavis.edu>
 Description: Estimation of changepoints using an "S-curve"
    approximation. Formation of confidence intervals for changepoint
    locations and magnitudes. Both abrupt and gradual changes can be
-   modeled.
-Depends: R (>= 3.5.0), nls.multstart, stringr
+   modeled.  In addition to changes in mean, changes in 
+   linear model slope and intercepts are handled (including regression
+   discontinuity).
+Depends: R (>= 3.5.0), nls.multstart
 Suggests: knitr,rmarkdown
 VignetteBuilder: knitr
 License: GPL (>= 2) 

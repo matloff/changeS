@@ -39,8 +39,10 @@
 performed by using an S-curve (logistic function) to 
 approximate a step function.  This enables asymptotic standard errors,
 and associated confidence intervals and tests for changepoint locations
-and change magnitudes.  (However, in the multi-changepoint case, the
-alpha levels are only nominal.)
+and change magnitudes.  
+
+The multi-changepoint case is considered to be exploratory only, as the
+alpha levels are only nominal.
 
 Note:  The location of a changepoint is considered to be a continuous
 numeric quantity, in contrast to packages such as \code{changepoints}
