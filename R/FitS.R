@@ -283,6 +283,11 @@ plot.fittedS <- function(x,...)
 
 }
 
+vcov.fittedS <- function(object,...) 
+{
+   object$covMat
+}
+
 
 ###  plot.fittedS <- function(x,...){
  

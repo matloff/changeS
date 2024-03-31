@@ -12,3 +12,8 @@ S3method(print,fittedS)
 S3method(plot,fittedS)
 S3method(plot,fittedS_linear)
 S3method(summary,fittedS)
+S3method(vcov,fittedS)
+S3method(vcov,fittedS_linear)
+
+
+

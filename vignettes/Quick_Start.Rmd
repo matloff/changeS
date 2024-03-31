@@ -55,6 +55,22 @@ nileOut
 # changePt  -0.5270315 -11.2918541   6.1601174
 # [1] "standard error of the difference between pre-changepoint and post-changepoint means"
 # [1] 28.93205
+summary(nileOut)
+# Formula: y ~ fitGenLogit_fixed(postMean, preMean, changePt, x = x)
+# 
+# Parameters:
+#          Estimate Std. Error t value Pr(>|t|)
+# postMean  849.970     15.126   56.19   <2e-16 ***
+# preMean  1097.930     24.694   44.46   <2e-16 ***
+# changePt 1898.381      2.482  764.87   <2e-16 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 128.3 on 97 degrees of freedom
+# 
+# Number of iterations to convergence: 10
+# Achieved convergence tolerance: 1.49e-08
+
 ```
 
 Our model concluded that there is an abrupt changepoint
@@ -128,12 +144,9 @@ qualifies at age 65, though this can occur earlier or later.  Here we
 consider 90-day mortality in relation to age.
 
 ``` r
-# get Medicare data of David Card et al
-con <- url('https://github.com/108michael/ms_thesis/raw/master/medicare.Rdata')
-load(con)
+data(medicare)
 z <- fitS_linear(medicare[,c(4,3)],1,2)
 summary(z)
-
 # Formula: y ~ big_linear_guy(b1, h1, s1, c, b2, h2, s2, x = x)
 # 
 # Parameters:
@@ -152,6 +165,13 @@ summary(z)
 # 
 # Number of iterations to convergence: 91 
 # Achieved convergence tolerance: 1.49e-08
+vcov(z)  # estimated covariance matrix
+#              b1           h1           c          b2          h2
+# b1  0.005757223 -0.001619101  -0.2452871 -0.35465289   0.1101008
+# h1 -0.001619101  0.004669711   0.1776810  0.09876255  -0.3140773
+# c  -0.245287074  0.177681049  26.4532915 14.96270436 -12.0819248
+# b2 -0.354652894  0.098762545  14.9627044 21.85540725  -6.7159704
+# h2  0.110100783 -0.314077292 -12.0819248 -6.71597037  21.1321480
 ```
 
 As we would hope, mortality did decline after people became eligible for

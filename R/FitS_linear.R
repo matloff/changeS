@@ -97,6 +97,13 @@ fitS_linear <- function(dataIn, xColIndex=NULL, yColIndex=NULL,
   retObj
 }
 
+
+vcov.fittedS_linear <- function(object,...)
+{
+   object$covMat
+}
+
+
 plot.fittedS_linear <- function(x,...)
 {
    z <- x
