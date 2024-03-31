@@ -33,7 +33,7 @@ Object of class \code{"fittedS_linear"}, with components:
 
 The gap at the changepoint is then
 
-(h2 + b2 c) - (b2 + b1 c)
+(h2 + h1 c) - (b2 + b1 c)
 
 }
 
