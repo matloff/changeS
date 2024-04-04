@@ -43,7 +43,7 @@ the height of the river during 1871-1970.  Here is the code:
 
 ``` r
 nile <- data.frame(t=1871:1970, ht=Nile)
-nileOut <- fitS(nile,1,2,10)  # abrupt change model
+nileOut <- fitS(nile,1,2,10,plotTitle='Nile River Data')  # abrupt change model
 nileOut
 # [1] "point estimates of the alpha_i"
 #  postMean   preMean  changePt 
@@ -80,7 +80,7 @@ We modeled an abrupt change here, by setting the S-curve slope to a
 large value, 10.
 
 Here domain expertise would identify the location of the changepoint, so
-the main interest is the value of the change.  A major drop of water
+the main interest is the value of the change.  A major drop in water
 flow is detected around this point, from 1097.75 down to 849.972.
 An approximate 95% confidence interval for the change in mean would then
 be 
@@ -109,7 +109,7 @@ case for our S-curve approach.
 
 ``` r
 data(cancerRates)
-crOut <- fitS(cancerRates,1,2)
+crOut <- fitS(cancerRates,1,2,plotTitle='Cancer Rates')
 crOut
 # [1] "point estimates of the alpha_i"
 #  postMean   preMean     slope  changePt 
@@ -145,33 +145,31 @@ consider 90-day mortality in relation to age.
 
 ``` r
 data(medicare)
-z <- fitS_linear(medicare[,c(4,3)],1,2)
+z <- fitS_linear(medicare[,c(4,1)],1,2)
 summary(z)
-# Formula: y ~ big_linear_guy(b1, h1, s1, c, b2, h2, s2, x = x)
+# Formula: y ~ big_linear_guy(b1, h1, c, b2, h2, x = x)
 # 
 # Parameters:
 #     Estimate Std. Error t value Pr(>|t|)    
-# b1   0.60490    0.07135   8.478 9.87e-14 ***
-# h1   0.78810    0.18587   4.240 4.59e-05 ***
-# s1   9.59339  717.41168   0.013  0.98935    
-# c   65.99895    0.10660 619.109  < 2e-16 ***
-# b2 -23.93643    4.40366  -5.436 3.19e-07 ***
-# h2 -37.23297   12.69091  -2.934  0.00406 ** 
-# s2   2.89020    1.76829   1.634  0.10495    
+# b1    9.1749     0.8019  11.442  < 2e-16 ***
+# h1   18.6334     0.5671  32.859  < 2e-16 ***
+# c    63.9665     0.1256 509.316  < 2e-16 ***
+# b2 -133.2359    49.3234  -2.701  0.00795 ** 
+# h2 -731.0732    38.0025 -19.237  < 2e-16 ***
 # ---
 # Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 # 
-# Residual standard error: 0.6417 on 113 degrees of freedom
+# Residual standard error: 6.211 on 115 degrees of freedom
 # 
-# Number of iterations to convergence: 91 
+# Number of iterations to convergence: 16 
 # Achieved convergence tolerance: 1.49e-08
 vcov(z)  # estimated covariance matrix
-#              b1           h1           c          b2          h2
-# b1  0.005757223 -0.001619101  -0.2452871 -0.35465289   0.1101008
-# h1 -0.001619101  0.004669711   0.1776810  0.09876255  -0.3140773
-# c  -0.245287074  0.177681049  26.4532915 14.96270436 -12.0819248
-# b2 -0.354652894  0.098762545  14.9627044 21.85540725  -6.7159704
-# h2  0.110100783 -0.314077292 -12.0819248 -6.71597037  21.1321480
+              b1            h1           c            b2            h2
+# b1  6.430030e-01  1.005838e-05  0.03672791 -3.954467e+01 -6.679036e-04
+# h1  1.005838e-05  3.215728e-01 -0.03081389 -6.036751e-04 -2.154544e+01
+# c   3.672791e-02 -3.081389e-02  0.01577364 -2.240404e+00  2.085079e+00
+# b2 -3.954467e+01 -6.036751e-04 -2.24040421  2.432800e+03  4.007521e-02
+# h2 -6.679036e-04 -2.154544e+01  2.08507915  4.007521e-02  1.444192e+03
 ```
 
 As we would hope, mortality did decline after people became eligible for
@@ -180,7 +178,9 @@ Medicare.  For instance, the intercept went down from -23.9364322 to
 that many people opted to start the program a little later.
 
 An approximate 95% confidence interval for the location of the
-changepoint is 65.99895 &plusmn; 1.96 x  0.10660. 
+changepoint is 
+
+63.9665 &plusmn; 1.96 x 0.1256
 
 <img src="medicare.png" width="600" height="450" />
 
