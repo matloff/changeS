@@ -4,7 +4,7 @@
 \title{S-Curve Fit}
 
 \description{Finds change(s) in mean.}
-\usage{fitS(dataIn,xColIndex=NULL,yColIndex=NULL,slopeIn=NULL,depth=1,
+\usage{fitS(dataIn,xColIndex=NULL,yColIndex=NULL,slopeIn=10,depth=1,
    family_wise_error_rate=0.05,autoTraverse=TRUE,plotTitle = '')
 }
 

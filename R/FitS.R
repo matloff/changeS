@@ -1,5 +1,5 @@
 
-fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=NULL, depth=1,
+fitS <- function(dataIn, xColIndex=NULL, yColIndex=NULL, slopeIn=10, depth=1,
                  family_wise_error_rate = .05, autoTraverse=TRUE,
                  plotTitle = '') {
 
